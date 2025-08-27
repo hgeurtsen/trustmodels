@@ -1,0 +1,11 @@
+ResellerID,ResellerName,BusinessType,AnnualRevenue,BankName,MinPaymentType,MinPaymentAmount,CommissionPercent,Address,City,Country
+926,ResellerName_0,BusinessType_0,665.06,BankName_0,MinPaymentType_0,852.6,0.07,Address_0,City_0,Country_0
+530,ResellerName_1,BusinessType_1,902.37,BankName_1,MinPaymentType_1,801.53,0.05,Address_1,City_1,Country_1
+547,ResellerName_2,BusinessType_2,57.84,BankName_2,MinPaymentType_2,364.39,0.04,Address_2,City_2,Country_2
+498,ResellerName_3,BusinessType_3,647.11,BankName_3,MinPaymentType_3,846.41,0.12,Address_3,City_3,Country_3
+507,ResellerName_4,BusinessType_4,39.84,BankName_4,MinPaymentType_4,815.37,0.06,Address_4,City_4,Country_4
+179,ResellerName_5,BusinessType_5,111.66,BankName_5,MinPaymentType_5,195.14,0.16,Address_5,City_5,Country_5
+112,ResellerName_6,BusinessType_6,948.55,BankName_6,MinPaymentType_6,178.38,0.02,Address_6,City_6,Country_6
+733,ResellerName_7,BusinessType_7,712.89,BankName_7,MinPaymentType_7,327.35,0.15,Address_7,City_7,Country_7
+191,ResellerName_8,BusinessType_8,471.18,BankName_8,MinPaymentType_8,79.13,0.19,Address_8,City_8,Country_8
+260,ResellerName_9,BusinessType_9,731.28,BankName_9,MinPaymentType_9,738.03,0.06,Address_9,City_9,Country_9

@@ -1,0 +1,11 @@
+CustomerID,FirstName,LastName,EmailAddress,Phone,AddressLine1,City,StateProvince,PostalCode,CountryRegion,BirthDate
+345,FirstName_0,LastName_0,EmailAddress_0,Phone_0,AddressLine1_0,City_0,StateProvince_0,PostalCode_0,CountryRegion_0,2022-02-10
+577,FirstName_1,LastName_1,EmailAddress_1,Phone_1,AddressLine1_1,City_1,StateProvince_1,PostalCode_1,CountryRegion_1,2022-02-04
+408,FirstName_2,LastName_2,EmailAddress_2,Phone_2,AddressLine1_2,City_2,StateProvince_2,PostalCode_2,CountryRegion_2,2022-05-27
+999,FirstName_3,LastName_3,EmailAddress_3,Phone_3,AddressLine1_3,City_3,StateProvince_3,PostalCode_3,CountryRegion_3,2022-05-08
+315,FirstName_4,LastName_4,EmailAddress_4,Phone_4,AddressLine1_4,City_4,StateProvince_4,PostalCode_4,CountryRegion_4,2022-01-25
+25,FirstName_5,LastName_5,EmailAddress_5,Phone_5,AddressLine1_5,City_5,StateProvince_5,PostalCode_5,CountryRegion_5,2022-03-21
+633,FirstName_6,LastName_6,EmailAddress_6,Phone_6,AddressLine1_6,City_6,StateProvince_6,PostalCode_6,CountryRegion_6,2022-04-05
+28,FirstName_7,LastName_7,EmailAddress_7,Phone_7,AddressLine1_7,City_7,StateProvince_7,PostalCode_7,CountryRegion_7,2022-09-07
+267,FirstName_8,LastName_8,EmailAddress_8,Phone_8,AddressLine1_8,City_8,StateProvince_8,PostalCode_8,CountryRegion_8,2022-10-11
+986,FirstName_9,LastName_9,EmailAddress_9,Phone_9,AddressLine1_9,City_9,StateProvince_9,PostalCode_9,CountryRegion_9,2022-02-08

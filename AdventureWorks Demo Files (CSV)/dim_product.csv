@@ -1,0 +1,11 @@
+ProductID,ProductName,ProductNumber,Color,StandardCost,ListPrice,Size,Weight,ProductCategory,ProductSubcategory,SellStartDate
+156,ProductName_0,ProductNumber_0,Color_0,198.64,77.6,Size_0,Weight_0,ProductCategory_0,ProductSubcategory_0,2022-07-02
+752,ProductName_1,ProductNumber_1,Color_1,973.06,595.73,Size_1,Weight_1,ProductCategory_1,ProductSubcategory_1,2022-04-19
+592,ProductName_2,ProductNumber_2,Color_2,171.25,660.73,Size_2,Weight_2,ProductCategory_2,ProductSubcategory_2,2022-09-06
+560,ProductName_3,ProductNumber_3,Color_3,690.8,667.44,Size_3,Weight_3,ProductCategory_3,ProductSubcategory_3,2022-04-08
+774,ProductName_4,ProductNumber_4,Color_4,533.67,913.81,Size_4,Weight_4,ProductCategory_4,ProductSubcategory_4,2022-12-14
+414,ProductName_5,ProductNumber_5,Color_5,175.52,729.72,Size_5,Weight_5,ProductCategory_5,ProductSubcategory_5,2022-07-30
+449,ProductName_6,ProductNumber_6,Color_6,837.96,246.88,Size_6,Weight_6,ProductCategory_6,ProductSubcategory_6,2022-12-08
+699,ProductName_7,ProductNumber_7,Color_7,477.41,674.49,Size_7,Weight_7,ProductCategory_7,ProductSubcategory_7,2022-11-14
+957,ProductName_8,ProductNumber_8,Color_8,224.37,789.64,Size_8,Weight_8,ProductCategory_8,ProductSubcategory_8,2022-11-10
+384,ProductName_9,ProductNumber_9,Color_9,333.14,310.7,Size_9,Weight_9,ProductCategory_9,ProductSubcategory_9,2022-07-20

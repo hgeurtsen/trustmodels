@@ -1,0 +1,11 @@
+EmployeeID,FirstName,LastName,Title,HireDate,BirthDate,Gender,EmailAddress,Phone,Department,ManagerID
+468,FirstName_0,LastName_0,Title_0,2022-07-07,2022-03-19,Gender_0,EmailAddress_0,Phone_0,Department_0,914
+516,FirstName_1,LastName_1,Title_1,2022-02-28,2022-02-12,Gender_1,EmailAddress_1,Phone_1,Department_1,295
+5,FirstName_2,LastName_2,Title_2,2022-03-02,2022-10-31,Gender_2,EmailAddress_2,Phone_2,Department_2,897
+825,FirstName_3,LastName_3,Title_3,2022-06-10,2022-11-03,Gender_3,EmailAddress_3,Phone_3,Department_3,455
+674,FirstName_4,LastName_4,Title_4,2022-12-18,2022-01-28,Gender_4,EmailAddress_4,Phone_4,Department_4,41
+757,FirstName_5,LastName_5,Title_5,2022-10-31,2022-11-13,Gender_5,EmailAddress_5,Phone_5,Department_5,25
+741,FirstName_6,LastName_6,Title_6,2022-09-05,2022-10-14,Gender_6,EmailAddress_6,Phone_6,Department_6,611
+384,FirstName_7,LastName_7,Title_7,2022-07-15,2022-08-06,Gender_7,EmailAddress_7,Phone_7,Department_7,421
+206,FirstName_8,LastName_8,Title_8,2022-11-23,2022-01-24,Gender_8,EmailAddress_8,Phone_8,Department_8,225
+554,FirstName_9,LastName_9,Title_9,2022-01-05,2022-01-10,Gender_9,EmailAddress_9,Phone_9,Department_9,162

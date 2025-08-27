@@ -1,0 +1,11 @@
+TerritoryID,Name,CountryRegionCode,Group,SalesYTD,SalesLastYear,CostYTD,CostLastYear,StartDate,EndDate,IsActive
+128,Name_0,CountryRegionCode_0,Group_0,SalesYTD_0,SalesLastYear_0,944.37,331.15,2022-12-02,2022-11-14,IsActive_0
+985,Name_1,CountryRegionCode_1,Group_1,SalesYTD_1,SalesLastYear_1,438.16,37.62,2022-09-17,2022-12-07,IsActive_1
+579,Name_2,CountryRegionCode_2,Group_2,SalesYTD_2,SalesLastYear_2,598.72,141.99,2022-05-14,2022-10-15,IsActive_2
+676,Name_3,CountryRegionCode_3,Group_3,SalesYTD_3,SalesLastYear_3,94.19,651.71,2022-04-13,2022-02-24,IsActive_3
+687,Name_4,CountryRegionCode_4,Group_4,SalesYTD_4,SalesLastYear_4,960.91,325.68,2022-08-30,2022-09-14,IsActive_4
+969,Name_5,CountryRegionCode_5,Group_5,SalesYTD_5,SalesLastYear_5,659.96,802.81,2022-10-06,2022-07-15,IsActive_5
+621,Name_6,CountryRegionCode_6,Group_6,SalesYTD_6,SalesLastYear_6,46.53,547.96,2022-05-21,2022-12-17,IsActive_6
+708,Name_7,CountryRegionCode_7,Group_7,SalesYTD_7,SalesLastYear_7,522.28,581.62,2022-06-02,2022-02-26,IsActive_7
+817,Name_8,CountryRegionCode_8,Group_8,SalesYTD_8,SalesLastYear_8,402.89,657.5,2022-12-07,2022-10-19,IsActive_8
+31,Name_9,CountryRegionCode_9,Group_9,SalesYTD_9,SalesLastYear_9,35.95,998.43,2022-07-14,2022-03-12,IsActive_9

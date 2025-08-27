@@ -1,0 +1,11 @@
+DateKey,FullDate,Day,Month,Year,Quarter,Week,IsHoliday,IsWeekend,FiscalYear,FiscalPeriod
+2022-10-02,2022-12-26,Day_0,Month_0,Year_0,Quarter_0,Week_0,IsHoliday_0,IsWeekend_0,FiscalYear_0,FiscalPeriod_0
+2022-02-27,2022-12-21,Day_1,Month_1,Year_1,Quarter_1,Week_1,IsHoliday_1,IsWeekend_1,FiscalYear_1,FiscalPeriod_1
+2022-06-19,2022-11-08,Day_2,Month_2,Year_2,Quarter_2,Week_2,IsHoliday_2,IsWeekend_2,FiscalYear_2,FiscalPeriod_2
+2022-07-02,2022-03-14,Day_3,Month_3,Year_3,Quarter_3,Week_3,IsHoliday_3,IsWeekend_3,FiscalYear_3,FiscalPeriod_3
+2022-02-23,2022-07-05,Day_4,Month_4,Year_4,Quarter_4,Week_4,IsHoliday_4,IsWeekend_4,FiscalYear_4,FiscalPeriod_4
+2022-07-23,2022-01-28,Day_5,Month_5,Year_5,Quarter_5,Week_5,IsHoliday_5,IsWeekend_5,FiscalYear_5,FiscalPeriod_5
+2022-10-13,2022-10-10,Day_6,Month_6,Year_6,Quarter_6,Week_6,IsHoliday_6,IsWeekend_6,FiscalYear_6,FiscalPeriod_6
+2022-12-14,2022-10-01,Day_7,Month_7,Year_7,Quarter_7,Week_7,IsHoliday_7,IsWeekend_7,FiscalYear_7,FiscalPeriod_7
+2022-06-24,2022-02-20,Day_8,Month_8,Year_8,Quarter_8,Week_8,IsHoliday_8,IsWeekend_8,FiscalYear_8,FiscalPeriod_8
+2022-10-20,2022-01-21,Day_9,Month_9,Year_9,Quarter_9,Week_9,IsHoliday_9,IsWeekend_9,FiscalYear_9,FiscalPeriod_9

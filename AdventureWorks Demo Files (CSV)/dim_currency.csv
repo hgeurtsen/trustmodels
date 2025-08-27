@@ -1,0 +1,11 @@
+CurrencyKey,CurrencyName,CurrencyCode,ExchangeRate,EffectiveDate,EndDate,CountryRegion,CurrencySymbol,IsActive,UpdatedBy,UpdatedDate
+183,CurrencyName_0,CurrencyCode_0,ExchangeRate_0,2022-11-30,2022-06-12,CountryRegion_0,CurrencySymbol_0,IsActive_0,UpdatedBy_0,2022-08-26
+366,CurrencyName_1,CurrencyCode_1,ExchangeRate_1,2022-09-23,2022-12-26,CountryRegion_1,CurrencySymbol_1,IsActive_1,UpdatedBy_1,2022-02-17
+4,CurrencyName_2,CurrencyCode_2,ExchangeRate_2,2022-05-13,2022-08-12,CountryRegion_2,CurrencySymbol_2,IsActive_2,UpdatedBy_2,2022-07-19
+90,CurrencyName_3,CurrencyCode_3,ExchangeRate_3,2022-04-09,2022-10-08,CountryRegion_3,CurrencySymbol_3,IsActive_3,UpdatedBy_3,2022-03-02
+620,CurrencyName_4,CurrencyCode_4,ExchangeRate_4,2022-10-28,2022-07-10,CountryRegion_4,CurrencySymbol_4,IsActive_4,UpdatedBy_4,2022-03-16
+154,CurrencyName_5,CurrencyCode_5,ExchangeRate_5,2022-08-21,2022-05-05,CountryRegion_5,CurrencySymbol_5,IsActive_5,UpdatedBy_5,2022-12-19
+908,CurrencyName_6,CurrencyCode_6,ExchangeRate_6,2022-08-19,2022-01-27,CountryRegion_6,CurrencySymbol_6,IsActive_6,UpdatedBy_6,2022-11-06
+80,CurrencyName_7,CurrencyCode_7,ExchangeRate_7,2022-11-28,2022-01-05,CountryRegion_7,CurrencySymbol_7,IsActive_7,UpdatedBy_7,2022-09-01
+986,CurrencyName_8,CurrencyCode_8,ExchangeRate_8,2022-07-07,2022-12-07,CountryRegion_8,CurrencySymbol_8,IsActive_8,UpdatedBy_8,2022-05-07
+303,CurrencyName_9,CurrencyCode_9,ExchangeRate_9,2022-05-23,2022-11-10,CountryRegion_9,CurrencySymbol_9,IsActive_9,UpdatedBy_9,2022-08-27
