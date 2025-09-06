@@ -35,26 +35,16 @@ st.header("Trust Score Demo")
 # Convert to numeric, coerce errors (non-numeric -> NaN), then fill NaN with 0
 data['trust_score'] = pd.to_numeric(data['trust_score'], errors='coerce').fillna(0).astype(int)
 values = st.slider("Select a range of values", 0.0, 100.0, (0.0, 75.0))
-# d = data[(data['tag_value'] >= values[0]) & (data['tag_value'] <= values[1])]
 
+# Create two tabs, one for chart and one for data
 tab1, tab2 = st.tabs(["📈 Chart", "🗃 Data"])
-
-
 
 d = data[(data['trust_score'].astype(int) >= values[0]) & 
          (data['trust_score'].astype(int) <= values[1])]
 
-col1, col2 = st.columns([3, 1])
-with col1:
-    tab1.bar_chart(data=d, height=400, width=700, y="trust_score", x="tableName")
-#with col2:
-    #st.subheader("Filter Score")
-    # fromdate = st.text_input("From (OrderDate)", value="2022-01-01")
-    # todate = st.text_input("To (OrderDate)", value="2022-05-01")
-    # d = data[(data['pickup_zip'] == int(pickup)) & (data['dropoff_zip'] == int(dropoff))]
-    # st.write(f"# **${d['SalesAmount'].mean() if len(d) > 0 else 99:.2f}**")
+tab1.bar_chart(data=d, height=400, width=700, y="trust_score", x="tableName")
 
-event = tab2.dataframe(data=d, column_config={
+tab2.dataframe(data=d, column_config={
         "trust_score": st.column_config.ProgressColumn(
             "Trust Score",
             help="The Trust Score on a scale of 0-100",
@@ -64,24 +54,4 @@ event = tab2.dataframe(data=d, column_config={
         ),
     }, height=600
     , use_container_width=False
-    #,on_select="rerun"
-    #,selection_mode=["single-row"]
     )
-
-# selected = event.selection.rows  # This is a list of the selected row indices
-# selected
-# filtered_df = d.iloc[selected]
-
-
-# st.dataframe(data=filtered_df, column_config={
-#         "trust_score": st.column_config.ProgressColumn(
-#             "Trust Score",
-#             help="The Trust Score on a scale of 0-100",
-#             format="%f",
-#             min_value=0,
-#             max_value=100,
-#         ),
-#     }, height=600
-#     , use_container_width=False
-#     ,on_select="rerun"
-#     ,selection_mode=["single-row"])

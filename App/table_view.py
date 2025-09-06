@@ -22,85 +22,73 @@ def sqlQuery(query: str) -> pd.DataFrame:
 
 st.set_page_config(layout="wide")
 st.header("Trust Score Demo")
-# search_text = st.text_input("Movie title", "sales")
-# st.write("The current movie title is", search_text)
 
 @st.cache_data(ttl=30)  # only re-query if it's been 30 seconds
 def getData():
     # This example query depends on the nyctaxi data set in Unity Catalog, see https://docs.databricks.com/en/discover/databricks-datasets.html for details
     return sqlQuery("""SELECT * FROM workspace.trustmodel.trust_scores""")
 
-def getColumnData():
-    return sqlQuery("SELECT table_schema, table_name, column_name, CASE WHEN comment IS NULL THEN 0 ELSE 1 END as comment FROM information_schema.columns")
-
 data = getData()
-column_data = getColumnData()
 
+df=data
 
+# Build a friendly FQN for a selector
+df["fqn"] = df["catalogName"].fillna("") + "." + df["schemaName"].fillna("") + "." + df["tableName"].fillna("")
+df = df.sort_values(["catalogName","schemaName","tableName"])
 
+# --- UI: pick a table/view ---
+selection = st.selectbox("Table / View", options=df["fqn"].tolist())
+row = df.loc[df["fqn"] == selection].iloc[0]  # selected row as a Series
 
-# Convert to numeric, coerce errors (non-numeric -> NaN), then fill NaN with 0
-data['trust_score'] = pd.to_numeric(data['trust_score'], errors='coerce').fillna(0).astype(int)
-# values = st.slider("Select a range of values", 0.0, 100.0, (0.0, 75.0))
-# d = data[(data['tag_value'] >= values[0]) & (data['tag_value'] <= values[1])]
+# --- helpers ---
+def checkmark(v):
+    if pd.isna(v): return "—"
+    return "✅" if bool(v) else "❌"
 
+def exists(col):
+    return col in row.index
 
-# d = data[(data['trust_score'].astype(int) >= values[0]) & 
-#          (data['trust_score'].astype(int) <= values[1])]
+# If your column means “has a *human* owner”, keep the label as “Human owner”.
+# If you actually track “non-human owner”, flip the boolean or rename the label below.
+owner_label = "👤 Human owner" if "hasHumanOwner" in row.index else "🤖 Non-human owner"
 
-d=data
+# --- assemble the details table (only show what exists) ---
+details = []
 
-col1, col2, col3 = st.columns([1, 0.5, 0.5], gap="small")
-with col1:
-    event = st.dataframe(data=d[["catalogName", "schemaName", "tableName", "trust_score"]], column_config={
-            "catalogName": "Catalog",
-            "schemaName": "Schema",
-            "tableName": "Table",
-            "trust_score": st.column_config.ProgressColumn(
-                "Trust Score",
-                help="The Trust Score on a scale of 0-100",
-                format="%f",
-                min_value=0,
-                max_value=100,
-            ),
-        }, height=600
-        ,use_container_width=False
-        ,on_select="rerun"
-        ,selection_mode=["single-row"]
-        )
+# Comments
+if exists("hasComments"):             details.append(("Table comments",  checkmark(row["hasComments"])))
+if exists("allColumnsHaveComments"):  details.append(("Column comments", checkmark(row["allColumnsHaveComments"])))
 
+# Ownership
+if exists("hasHumanOwner"):           details.append((owner_label,       checkmark(row["hasHumanOwner"])))
 
+# Quality / process
+if exists("dqChecks"):                details.append(("DQ checks",       checkmark(row["dqChecks"])))
+if exists("slaDefined"):              details.append(("SLA defined",     checkmark(row["slaDefined"])))
 
-with col2:
-    if event.selection.rows:
+# Age / usage
+if exists("weeksInProduction"):       details.append(("Age in weeks",    int(row["weeksInProduction"]) if pd.notna(row["weeksInProduction"]) else "—"))
+if exists("usersWithAccess"):         details.append(("# humans with access", int(row["usersWithAccess"]) if pd.notna(row["usersWithAccess"]) else "—"))
+if exists("users28d"):                details.append(("# users (28d)",   int(row["users28d"]) if pd.notna(row["users28d"]) else "—"))
 
-        selected = event.selection.rows  # This is a list of the selected row indices
-        filtered_df = d.iloc[selected]
+details_df = pd.DataFrame(details, columns=["Score details", "Value"])
 
-        filtered_columns = column_data[(column_data['table_name'] == filtered_df['tableName'].iloc[0]) &
-                                    (column_data['table_schema'] == filtered_df['schemaName'].iloc[0])]
+# --- layout to match your mock ---
+left, right = st.columns([3,1])
 
-        # a, b = st.columns(2)
-        # c, d = st.columns(2)
-        st.subheader(filtered_df['tableName'].iloc[0], divider="gray")
-         # col1, col2, col3 = st.columns(3)
-        if filtered_df['trust_score'].iloc[0] < 50:
-            st.badge("Low Trust Score", icon=":material/warning:", color="red")
-        elif filtered_df['trust_score'].iloc[0] < 80:
-            st.badge("Medium Trust Score", icon=":material/info:", color="yellow")
-        else:
-            st.badge("High Trust Score", icon=":material/check:", color="green")
-        st.metric("Table Has Comments", "✅" if filtered_df['hasComments'].iloc[0] == True else "❌",border=True)
-        st.metric("All Columns Have Comments", "✅" if filtered_df['allColumnsHaveComments'].iloc[0] == True else "❌",chart_data=filtered_columns['comment'], chart_type="area", border=True)
-        st.metric("Has Human Owner", "✅" if filtered_df['hasHumanOwner'].iloc[0] == True else "❌", border=True)
-        st.metric(label="Weeks In Production", value=filtered_df['weeksInProduction'], border=True)
-# from numpy.random import default_rng as rng
-# changes = list(rng(4).standard_normal(20))
-# data = [sum(changes[:i]) for i in range(20)]
-# delta = round(data[-1], 2)
+with left:
+    st.subheader("Data Governance Score")
+    st.dataframe(
+        details_df,
+        hide_index=True,
+        use_container_width=True
+    )
 
-# row = st.container(horizontal=True)
-# with row:
-#     st.metric(
-#         "Line", 10, delta, "off",None, "hidden", False, "stretch", "content", data, "line"
-#     )
+with right:
+    st.write("")  # a little top padding
+    big_score = int(row["trust_score"]) if pd.notna(row["trust_score"]) else 0
+    st.metric(label="Score", value=big_score)
+
+# (Optional) show where the numbers came from for transparency
+with st.expander("Raw row"):
+    st.json(row.to_dict())
