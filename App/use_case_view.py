@@ -46,10 +46,11 @@ import numpy as np
 # Config
 # =========================
 TRUST_SCORES_TABLE = "workspace.trustmodel.trust_scores" 
-q = f"SELECT * FROM {TRUST_SCORES_TABLE}"
+q = f"SELECT *, CAST(RAND()*(1000-100)+100 AS INT) AS usersWithAccess, CAST(RAND()*(250-10)+10 AS INT) AS users28d FROM {TRUST_SCORES_TABLE}"
 data = getData(q)
 
-st.set_page_config(page_title="Data Trust Demo", layout="wide")
+#st.set_page_config(page_title="Data Trust Demo", layout="wide")
+st.header("Trust Score Demo")
 
 # =========================
 # Utilities
@@ -128,8 +129,8 @@ def scorecard(row):
         if "dqChecks" in row.index:                 details.append(("DQ checks",                check(row["dqChecks"])))
         if "slaDefined" in row.index:               details.append(("SLA defined",              check(row["slaDefined"])))
         if "weeksInProduction" in row.index:        details.append(("Age in weeks",             int(row["weeksInProduction"]) if pd.notna(row["weeksInProduction"]) else "—"))
-        if "usersWithAccess" in row.index:          details.append(("# humans with access",     int(row["usersWithAccess"]) if pd.notna(row["usersWithAccess"]) else "—"))
-        if "users28d" in row.index:                 details.append(("# users (28d)",            int(row["users28d"]) if pd.notna(row["users28d"]) else "—"))
+        if "usersWithAccess" in row.index:          details.append(("\# humans with access",     int(row["usersWithAccess"]) if pd.notna(row["usersWithAccess"]) else "—"))
+        if "users28d" in row.index:                 details.append(("\# users (28d)",            int(row["users28d"]) if pd.notna(row["users28d"]) else "—"))
 
         st.table(pd.DataFrame(details, columns=["Score details","Value"]))
 
@@ -390,4 +391,5 @@ else:  # "📊 Executive"
         st.info("No users28d metric available to rank by popularity.")
 
     st.subheader("Score distribution")
-    st.bar_chart(scores["trust_score"])
+    #st.bar_chart(scores["trust_score"])
+    st.bar_chart(data=scores,y="trust_score", x="fqn")
