@@ -21,7 +21,6 @@ def sqlQuery(query: str) -> pd.DataFrame:
             return cursor.fetchall_arrow().to_pandas()
 
 st.set_page_config(layout="wide")
-st.header("Trust Score Demo")
 
 @st.cache_data(ttl=30)  # only re-query if it's been 30 seconds
 def getData(qry):
@@ -87,7 +86,7 @@ def load_scores():
     available = data.columns#spark.table(TRUST_SCORES_TABLE).columns
     wanted = [
         "catalogName","schemaName","tableName","trust_score",
-        "hasComments","allColumnsHaveComments","hasHumanOwner",
+        "hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner",
         "dqChecks","slaDefined",
         "weeksInProduction","usersWithAccess","users28d",
         # feel free to add more metrics over time
@@ -97,7 +96,7 @@ def load_scores():
     pdf = data#spark.sql(q).toPandas()
 
     # Normalize types & compute convenience columns
-    boolish = ["hasComments","allColumnsHaveComments","hasHumanOwner","dqChecks","slaDefined"]
+    boolish = ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner","dqChecks","slaDefined"]
     for c in boolish:
         if c in pdf.columns:
             pdf[c] = pdf[c].map(as_bool)
@@ -123,7 +122,8 @@ def scorecard(row):
         st.subheader("Data Governance Score")
         details = []
 
-        if "hasComments" in row.index:             details.append(("Table comments",           check(row["hasComments"])))
+        if "hasComments" in row.index:             details.append(("Table comments",           check(row["hasComments"])))      
+        if "hasMarkdownDescription" in row.index:   details.append(("Markdown description",     check(row["hasMarkdownDescription"])))
         if "allColumnsHaveComments" in row.index:   details.append(("Column comments",          check(row["allColumnsHaveComments"])))
         if "hasHumanOwner" in row.index:            details.append(("👤 Human owner",          check(row["hasHumanOwner"])))
         if "dqChecks" in row.index:                 details.append(("DQ checks",                check(row["dqChecks"])))
@@ -221,11 +221,11 @@ if active_tab == "📚 Catalog":
 
     with left:
         display_cols = ["fqn","trust_score"]
-        for c in ["hasComments","allColumnsHaveComments","hasHumanOwner","weeksInProduction","users28d"]:
+        for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner","weeksInProduction","users28d"]:
             if c in filtered.columns: display_cols.append(c)
 
         df_show = filtered[display_cols].copy()
-        for c in ["hasComments","allColumnsHaveComments","hasHumanOwner"]:
+        for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner"]:
             if c in df_show.columns:
                 df_show[c] = df_show[c].map(check)
         st.dataframe(df_show, hide_index=True, use_container_width=True)
@@ -319,6 +319,8 @@ elif active_tab == "🛠️ Fix-it Backlog":
     if "hasComments" in scores.columns:             needs.append(("Missing table comments", ~scores["hasComments"].fillna(False)))
     if "allColumnsHaveComments" in scores.columns:  needs.append(("Missing column comments", ~scores["allColumnsHaveComments"].fillna(False)))
     if "hasHumanOwner" in scores.columns:           needs.append(("No human owner", ~scores["hasHumanOwner"].fillna(False)))
+    if "hasMarkdownDescription" in scores.columns:  needs.append(("No markdown description", ~scores["hasMarkdownDescription"].fillna(False)))
+
 
     if not needs:
         st.info("No boolean quality fields found.")
@@ -335,11 +337,11 @@ elif active_tab == "🛠️ Fix-it Backlog":
             backlog = backlog.sort_values(["users28d","trust_score"], ascending=[False, True])
 
         show_cols = ["fqn","trust_score"]
-        for c in ["hasComments","allColumnsHaveComments","hasHumanOwner","weeksInProduction","users28d"]:
+        for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner","weeksInProduction","users28d"]:
             if c in backlog.columns: show_cols.append(c)
 
         pretty = backlog[show_cols].copy()
-        for c in ["hasComments","allColumnsHaveComments","hasHumanOwner"]:
+        for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner"]:
             if c in pretty.columns: pretty[c] = pretty[c].map(check)
         st.dataframe(pretty, hide_index=True, use_container_width=True)
 
@@ -349,6 +351,7 @@ elif active_tab == "🛠️ Fix-it Backlog":
             def mk_action(r):
                 missing = []
                 if "hasComments" in r.index and not as_bool(r["hasComments"]): missing.append("Add table comment")
+                if "hasMarkdownDescription" in r.index and not as_bool(r["hasMarkdownDescription"]): missing.append("Add markdown description")
                 if "allColumnsHaveComments" in r.index and not as_bool(r["allColumnsHaveComments"]): missing.append("Add column comments")
                 if "hasHumanOwner" in r.index and not as_bool(r["hasHumanOwner"]): missing.append("Assign human owner")
                 return "; ".join(missing) if missing else "—"
@@ -365,6 +368,7 @@ f"""Title: Improve data trust for {fqn}
 Summary: Trust score = {int(r.get('trust_score',0))}. Recommended actions: {actions}.
 Details:
 - Table comments: {check(r.get('hasComments'))}
+- Markdown description: {check(r.get('hasMarkdownDescription'))}
 - Column comments: {check(r.get('allColumnsHaveComments'))}
 - Human owner: {check(r.get('hasHumanOwner'))}
 - Age (weeks): {int(r.get('weeksInProduction')) if pd.notna(r.get('weeksInProduction')) else '—'}
@@ -380,7 +384,7 @@ else:  # "📊 Executive"
     with c2:
         st.metric("% with column comments", f"{pct_true(scores.get('allColumnsHaveComments')):0.0f}%")
     with c3:
-        st.metric("% with DQ checks", f"{pct_true(scores.get('dqChecks')):0.0f}%" if "dqChecks" in scores.columns else "—")
+        st.metric("% with markdown description", f"{pct_true(scores.get('hasMarkdownDescription')):0.0f}%")
 
     st.subheader("Top risky & popular")
     if "users28d" in scores.columns:
@@ -392,4 +396,4 @@ else:  # "📊 Executive"
 
     st.subheader("Score distribution")
     #st.bar_chart(scores["trust_score"])
-    st.bar_chart(data=scores,y="trust_score", x="fqn")
+    st.bar_chart(data=scores,y="trust_score", x="tableName")
