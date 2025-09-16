@@ -84,7 +84,7 @@ The app can be found under *Compute > Apps > demo-app*
 
 By default, no App Resources are assigned. Press *Edit* on the demo-app to assign a SQL Warehouse.
 
-![alt text](images\image.png)
+![alt text](Images\image.png)
 
 The key should be `sql-warehouse` to match the configuration in the app.yaml.
 
@@ -92,10 +92,10 @@ Finally, the app should have permissions to read data from the Trust Model.
 For production purposes, permissions should be tailored the Service Principal of the app.   
 For demo purposes, a simplified configuration will suffice.
 
-![alt text](images\image-1.png)
+![alt text](Images\image-1.png)
 
 ### Run the app
 Start the app (if it's not already running). It can be found on the following URL:
-![alt text](images\image-2.png)
+![alt text](Images\image-2.png)
 
 https://www.infosupport.com
