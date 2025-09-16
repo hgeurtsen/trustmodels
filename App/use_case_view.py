@@ -3,6 +3,7 @@ from databricks import sql
 from databricks.sdk.core import Config
 import streamlit as st
 import pandas as pd
+import numpy as np
 
 # Ensure environment variable is set correctly
 assert os.getenv('DATABRICKS_WAREHOUSE_ID'), "DATABRICKS_WAREHOUSE_ID must be set in app.yaml."
@@ -24,31 +25,21 @@ st.set_page_config(layout="wide")
 
 @st.cache_data(ttl=30)  # only re-query if it's been 30 seconds
 def getData(qry):
-    # This example query depends on the nyctaxi data set in Unity Catalog, see https://docs.databricks.com/en/discover/databricks-datasets.html for details
-    #return sqlQuery("""SELECT * FROM workspace.trustmodel.trust_scores""")
     return sqlQuery(qry)
 
 def getMetricData(qry):
-    # This example query depends on the nyctaxi data set in Unity Catalog, see https://docs.databricks.com/en/discover/databricks-datasets.html for details
-    #return sqlQuery("""SELECT * FROM workspace.trustmodel.trust_scores""")
     return sqlQuery(qry)
-
-
-# Streamlit demo for AdventureWorks "trust score"
-# Works in a Databricks notebook with `spark` available.
-
-# import streamlit as st
-# import pandas as pd
-import numpy as np
 
 # =========================
 # Config
 # =========================
 TRUST_SCORES_TABLE = "workspace.trustmodel.trust_scores" 
+# Add usersWithAccess and users28d columns for demo purposes
+# In a real scenario, these would come from actual usage logs or access control systems
 q = f"SELECT *, CAST(RAND()*(1000-100)+100 AS INT) AS usersWithAccess, CAST(RAND()*(250-10)+10 AS INT) AS users28d FROM {TRUST_SCORES_TABLE}"
 data = getData(q)
 
-#st.set_page_config(page_title="Data Trust Demo", layout="wide")
+
 st.header("Trust Score Demo")
 
 # =========================
@@ -93,7 +84,7 @@ def load_scores():
     ]
     cols = safe_cols(available, wanted)
     q = f"SELECT {', '.join(cols)} FROM {TRUST_SCORES_TABLE}"
-    pdf = data#spark.sql(q).toPandas()
+    pdf = data
 
     # Normalize types & compute convenience columns
     boolish = ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner","dqChecks","slaDefined"]
@@ -139,7 +130,7 @@ def scorecard(row):
 
 def list_numeric_columns(fqn):
     try:
-        dtypes = data.dtypes# spark.table(fqn).dtypes  # [(name, type), ...]
+        dtypes = data.dtypes
         numeric_prefixes = ("int","bigint","double","float","decimal","smallint","tinyint","long","short")
         return [c for c,t in dtypes if any(t.startswith(p) for p in numeric_prefixes)]
     except Exception:
@@ -192,9 +183,6 @@ st.divider()
 # =========================
 # Tabs
 # =========================
-# tab_catalog, tab_gate, tab_compare, tab_fix, tab_exec = st.tabs(
-#     ["📚 Catalog", "🚧 Trust Gate", "⚖️ Compare", "🛠️ Fix-it Backlog", "📊 Executive"]
-# )
 
 TAB_NAMES = ["📚 Catalog", "🚧 Trust Gate", "⚖️ Compare", "🛠️ Fix-it Backlog", "📊 Executive"]
 
@@ -395,5 +383,4 @@ else:  # "📊 Executive"
         st.info("No users28d metric available to rank by popularity.")
 
     st.subheader("Score distribution")
-    #st.bar_chart(scores["trust_score"])
     st.bar_chart(data=scores,y="trust_score", x="tableName")
