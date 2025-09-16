@@ -13,7 +13,7 @@ def sqlQuery(query: str) -> pd.DataFrame:
     print (f"DATABRICKS_WAREHOUSE_ID: {os.getenv('DATABRICKS_WAREHOUSE_ID')}")
     with sql.connect(
         server_hostname=cfg.host,
-        http_path=f"/sql/1.0/warehouses/aebf760781cefe19",
+        http_path=f"/sql/1.0/warehouses/{os.getenv('DATABRICKS_WAREHOUSE_ID')}",
         credentials_provider=lambda: cfg.authenticate
     ) as connection:
         with connection.cursor() as cursor:
