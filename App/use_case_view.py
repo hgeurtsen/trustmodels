@@ -23,7 +23,7 @@ def sqlQuery(query: str) -> pd.DataFrame:
 
 st.set_page_config(layout="wide")
 
-@st.cache_data(ttl=30)  # only re-query if it's been 30 seconds
+@st.cache_data(ttl=30)  # only re-query if it's been 30 seconds.
 def getData(qry):
     return sqlQuery(qry)
 
