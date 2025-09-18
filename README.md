@@ -14,9 +14,17 @@ The Trust Score data also comes packed with a [Streamlit](https://docs.streamlit
 In order to run the app, the Trust Score data must already be setup.  
 The app can be run both locally and within Databricks. Both options will be discussed further on.
 
+## Prerequisites
+
+To run the app locally, ensure that Python is installed. The app was tested with Python 3.13.
+To run the code, use an IDE like VS Code or Visual Studio. 
+For Visual Studio, Build Tools for Visual Studio might me required.
+
 ## Run the App locally
 
 After cloning the repository, several dependencies are required to install. 
+To run the commands below, you have to start in the directory where the repository was cloned.
+
 
 ### Create virtual environment
 To keep things clean, create a virtual environment.
@@ -38,7 +46,7 @@ The connectionstring typically looks like this:
 
 `/sql/1.0/warehouses/aebf123456abcd12`
 
-Create a new environment variable:
+Create a new Windows environment variable:
 
 `DATABRICKS_WAREHOUSE_ID : aebf123456abcd12`
 
@@ -63,6 +71,7 @@ If the Databricks CLI is missing or outdated, please refer to: https://docs.data
 ### Create the app in Databricks
 
 First, create the app in Databricks. Keep in mind that the Free Edition of Databricks only allows 1 app.
+To run the commands below, you have to start in the directory where the repository was cloned.
 
 `databricks apps create demo-app`
 
@@ -93,9 +102,12 @@ For production purposes, permissions should be tailored the Service Principal of
 For demo purposes, a simplified configuration will suffice.
 
 ![alt text](Images/image-1.png)
+![alt text](Images/image-3.png)
 
 ### Run the app
 Start the app (if it's not already running). It can be found on the following URL:
 ![alt text](Images/image-2.png)
+
+
 
 https://www.infosupport.com
