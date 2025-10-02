@@ -37,8 +37,8 @@ TRUST_SCORES_TABLE = "workspace.trustmodel.trust_scores"
 # Add usersWithAccess and users28d columns for demo purposes
 # In a real scenario, these would come from actual usage logs or access control systems
 q = f"SELECT *, CAST(RAND()*(1000-100)+100 AS INT) AS usersWithAccess, CAST(RAND()*(250-10)+10 AS INT) AS users28d FROM {TRUST_SCORES_TABLE}"
-
 data = getData(q)
+
 
 st.header("Trust Score Demo")
 
@@ -216,11 +216,12 @@ if active_tab == "📚 Catalog":
         for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner"]:
             if c in df_show.columns:
                 df_show[c] = df_show[c].map(check)
-        st.dataframe(df_show, hide_index=True, width="stretch")
+        st.dataframe(df_show, hide_index=True, use_container_width=True)
         
     with right:
         st.subheader("Scorecard")
         options = filtered["fqn"].tolist()
+        
         
         if not options:
             st.info("No tables match the filters.")
@@ -228,6 +229,7 @@ if active_tab == "📚 Catalog":
             sel = st.selectbox("Table / View", options=options)
             row = filtered.loc[filtered["fqn"]==sel].iloc[0]
             scorecard(row)
+    
     
 # ---------- Trust Gate ----------
 elif active_tab == "🚧 Trust Gate":
@@ -332,7 +334,7 @@ elif active_tab == "🛠️ Fix-it Backlog":
         pretty = backlog[show_cols].copy()
         for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner"]:
             if c in pretty.columns: pretty[c] = pretty[c].map(check)
-        st.dataframe(pretty, hide_index=True, width="stretch")
+        st.dataframe(pretty, hide_index=True, use_container_width=True)
 
         # Downloadable CSV backlog with actionable description
         if len(backlog):
@@ -379,7 +381,7 @@ else:  # "📊 Executive"
     if "users28d" in scores.columns:
         top_risk = (scores.sort_values(["trust_score","users28d"], ascending=[True, False])
                            .head(10))[["fqn","trust_score","users28d"]]
-        st.dataframe(top_risk, hide_index=True, width="stretch")
+        st.dataframe(top_risk, hide_index=True, use_container_width=True)
     else:
         st.info("No users28d metric available to rank by popularity.")
 
