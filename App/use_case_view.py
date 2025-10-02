@@ -37,8 +37,8 @@ TRUST_SCORES_TABLE = "workspace.trustmodel.trust_scores"
 # Add usersWithAccess and users28d columns for demo purposes
 # In a real scenario, these would come from actual usage logs or access control systems
 q = f"SELECT *, CAST(RAND()*(1000-100)+100 AS INT) AS usersWithAccess, CAST(RAND()*(250-10)+10 AS INT) AS users28d FROM {TRUST_SCORES_TABLE}"
-
 data = getData(q)
+
 
 st.header("Trust Score Demo")
 
@@ -222,12 +222,14 @@ if active_tab == "📚 Catalog":
         st.subheader("Scorecard")
         options = filtered["fqn"].tolist()
         
+        
         if not options:
             st.info("No tables match the filters.")
         else:
             sel = st.selectbox("Table / View", options=options)
             row = filtered.loc[filtered["fqn"]==sel].iloc[0]
             scorecard(row)
+    
     
 # ---------- Trust Gate ----------
 elif active_tab == "🚧 Trust Gate":
