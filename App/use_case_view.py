@@ -216,7 +216,7 @@ if active_tab == "📚 Catalog":
         for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner"]:
             if c in df_show.columns:
                 df_show[c] = df_show[c].map(check)
-        st.dataframe(df_show, hide_index=True, width="stretch")
+        st.dataframe(df_show, hide_index=True, use_container_width=True)
         
     with right:
         st.subheader("Scorecard")
@@ -332,7 +332,7 @@ elif active_tab == "🛠️ Fix-it Backlog":
         pretty = backlog[show_cols].copy()
         for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner"]:
             if c in pretty.columns: pretty[c] = pretty[c].map(check)
-        st.dataframe(pretty, hide_index=True, width="stretch")
+        st.dataframe(pretty, hide_index=True, use_container_width=True)
 
         # Downloadable CSV backlog with actionable description
         if len(backlog):
@@ -379,7 +379,7 @@ else:  # "📊 Executive"
     if "users28d" in scores.columns:
         top_risk = (scores.sort_values(["trust_score","users28d"], ascending=[True, False])
                            .head(10))[["fqn","trust_score","users28d"]]
-        st.dataframe(top_risk, hide_index=True, width="stretch")
+        st.dataframe(top_risk, hide_index=True, use_container_width=True)
     else:
         st.info("No users28d metric available to rank by popularity.")
 
