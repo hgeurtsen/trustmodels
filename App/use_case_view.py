@@ -10,8 +10,8 @@ assert os.getenv('DATABRICKS_WAREHOUSE_ID'), "DATABRICKS_WAREHOUSE_ID must be se
 
 def sqlQuery(query: str) -> pd.DataFrame:
     cfg = Config() # Pull environment variables for auth
-    print (f"cfg: {cfg}")
-    print (f"DATABRICKS_WAREHOUSE_ID: {os.getenv('DATABRICKS_WAREHOUSE_ID')}")
+    # print (f"cfg: {cfg}")
+    # print (f"DATABRICKS_WAREHOUSE_ID: {os.getenv('DATABRICKS_WAREHOUSE_ID')}")
     with sql.connect(
         server_hostname=cfg.host,
         http_path=f"/sql/1.0/warehouses/{os.getenv('DATABRICKS_WAREHOUSE_ID')}",
@@ -37,8 +37,8 @@ TRUST_SCORES_TABLE = "workspace.trustmodel.trust_scores"
 # Add usersWithAccess and users28d columns for demo purposes
 # In a real scenario, these would come from actual usage logs or access control systems
 q = f"SELECT *, CAST(RAND()*(1000-100)+100 AS INT) AS usersWithAccess, CAST(RAND()*(250-10)+10 AS INT) AS users28d FROM {TRUST_SCORES_TABLE}"
-data = getData(q)
 
+data = getData(q)
 
 st.header("Trust Score Demo")
 
@@ -74,7 +74,7 @@ def build_fqn(row):
 @st.cache_data(show_spinner=False)
 def load_scores():
     # Discover columns first to avoid SELECT errors
-    available = data.columns#spark.table(TRUST_SCORES_TABLE).columns
+    available = data.columns
     wanted = [
         "catalogName","schemaName","tableName","trust_score",
         "hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner",
@@ -120,10 +120,10 @@ def scorecard(row):
         if "dqChecks" in row.index:                 details.append(("DQ checks",                check(row["dqChecks"])))
         if "slaDefined" in row.index:               details.append(("SLA defined",              check(row["slaDefined"])))
         if "weeksInProduction" in row.index:        details.append(("Age in weeks",             int(row["weeksInProduction"]) if pd.notna(row["weeksInProduction"]) else "—"))
-        if "usersWithAccess" in row.index:          details.append(("\# humans with access",     int(row["usersWithAccess"]) if pd.notna(row["usersWithAccess"]) else "—"))
-        if "users28d" in row.index:                 details.append(("\# users (28d)",            int(row["users28d"]) if pd.notna(row["users28d"]) else "—"))
-
-        st.table(pd.DataFrame(details, columns=["Score details","Value"]))
+        if "usersWithAccess" in row.index:          details.append((r"\# humans with access",     int(row["usersWithAccess"]) if pd.notna(row["usersWithAccess"]) else "—"))
+        if "users28d" in row.index:                 details.append((r"\# users (28d)",            int(row["users28d"]) if pd.notna(row["users28d"]) else "—"))
+        
+        st.table(pd.DataFrame(details, columns=["Score details","Value"]).astype(str))
 
     with right:
         st.metric("Score", int(row.get("trust_score", 0)))
@@ -216,18 +216,19 @@ if active_tab == "📚 Catalog":
         for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner"]:
             if c in df_show.columns:
                 df_show[c] = df_show[c].map(check)
-        st.dataframe(df_show, hide_index=True, use_container_width=True)
-
+        st.dataframe(df_show, hide_index=True, width="stretch")
+        
     with right:
         st.subheader("Scorecard")
         options = filtered["fqn"].tolist()
+        
         if not options:
             st.info("No tables match the filters.")
         else:
             sel = st.selectbox("Table / View", options=options)
             row = filtered.loc[filtered["fqn"]==sel].iloc[0]
             scorecard(row)
-
+    
 # ---------- Trust Gate ----------
 elif active_tab == "🚧 Trust Gate":
     st.write("Block queries against low-trust tables.")
@@ -331,7 +332,7 @@ elif active_tab == "🛠️ Fix-it Backlog":
         pretty = backlog[show_cols].copy()
         for c in ["hasComments","hasMarkdownDescription","allColumnsHaveComments","hasHumanOwner"]:
             if c in pretty.columns: pretty[c] = pretty[c].map(check)
-        st.dataframe(pretty, hide_index=True, use_container_width=True)
+        st.dataframe(pretty, hide_index=True, width="stretch")
 
         # Downloadable CSV backlog with actionable description
         if len(backlog):
@@ -378,7 +379,7 @@ else:  # "📊 Executive"
     if "users28d" in scores.columns:
         top_risk = (scores.sort_values(["trust_score","users28d"], ascending=[True, False])
                            .head(10))[["fqn","trust_score","users28d"]]
-        st.dataframe(top_risk, hide_index=True, use_container_width=True)
+        st.dataframe(top_risk, hide_index=True, width="stretch")
     else:
         st.info("No users28d metric available to rank by popularity.")
 
